@@ -1,0 +1,19 @@
+{
+  "name": "acorn-extract-comments",
+  "version": "0.0.0",
+  "description": "Extract JavaScript code comments from a string, using `acorn`. Optionally returns the AST and first line of code after comment - useful for parsing code context and api docs.",
+  "repository": "tunnckoCore/acorn-extract-comments",
+  "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "standard && node test.js"
+  },
+  "dependencies": {
+    "acorn": "~2.0.1"
+  },
+  "devDependencies": {
+    "assertit": "^0.1.0"
+  },
+  "keywords": []
+}
