@@ -37,6 +37,7 @@ module.exports = function acornExtractComments (input, opts) {
         codeStart = lines[commentEnd]
       }
 
+      comment.api = comment.value.indexOf('@api') !== -1
       comment.after = codeStart
       return comment
     }
