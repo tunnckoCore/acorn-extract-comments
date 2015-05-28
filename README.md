@@ -32,7 +32,7 @@ But before doing anything, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) 
 
 
 [npmjs-url]: https://www.npmjs.com/package/acorn-extract-comments
-[npmjs-img]: https://img.shields.io/npm/v/acorn-extract-comments.svg?label=acorn-extract-comments
+[npmjs-img]: https://img.shields.io/npm/v/acorn-extract-comments.svg
 
 [license-url]: https://github.com/tunnckoCore/acorn-extract-comments/blob/master/LICENSE.md
 [license-img]: https://img.shields.io/badge/license-MIT-blue.svg
