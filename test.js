@@ -14,6 +14,15 @@ var test = require('assertit')
 var acornExtractComments = require('./index')
 
 test('acorn-extract-comments:', function () {
+  test('should throw TypeError if not string given', function (done) {
+    function fixture () {
+      acornExtractComments()
+    }
+
+    test.throws(fixture, TypeError)
+    test.throws(fixture, /acorn-extract-comments expect a string/)
+    done()
+  })
   test('should extract comments to `.comments` prop (without options)', function (done) {
     var input = fs.readFileSync('./fixture.js', 'utf8')
     var actual = acornExtractComments(input)
