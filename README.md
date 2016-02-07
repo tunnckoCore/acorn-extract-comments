@@ -1,6 +1,6 @@
-# acorn-extract-comments [![npmjs.com][npmjs-img]][npmjs-url] [![The MIT License][license-img]][license-url] 
+# [acorn-extract-comments][author-www-url] [![npmjs.com][npmjs-img]][npmjs-url] [![The MIT License][license-img]][license-url] 
 
-> Extract JavaScript code comments from a string, using `acorn`. Optionally returns the AST and first line of code after comment - useful for parsing code context and api docs.
+> Extract JavaScript code comments from a string, using `acorn`.
 
 [![code climate][codeclimate-img]][codeclimate-url] [![standard code style][standard-img]][standard-url] [![travis build status][travis-img]][travis-url] [![coverage status][coveralls-img]][coveralls-url] [![dependency status][david-img]][david-url]
 
@@ -8,7 +8,6 @@
 ## Install
 ```
 npm i acorn-extract-comments --save
-npm test
 ```
 
 
@@ -16,12 +15,85 @@ npm test
 > For more use-cases see the [tests](./test.js)
 
 ```js
-var acornExtractComments = require('acorn-extract-comments')
+const extract = require('acorn-extract-comments')
+```
+
+
+### [acornExtractComments](index.js#L42)
+> Extract all code comments, including block/line and also these that are marked as "ignored" like (`//!` and `/*!`)
+
+**Params**
+
+* `<input>` **{String}**: string from which to get comments    
+* `[opts]` **{Object}**: optional options, passed to `acorn`  
+  - `ast` **{Boolean}**: if `true` the ast is added to the resulting array
+  - `line` **{Boolean}**: if `false` get only block comments, default `true`
+  - `block` **{Boolean}**: if `false` get line comments, default `true`
+  - `ignore` **{Function}**: check function, default check comment starts with `!`
+  - `preserve` **{Boolean}**: if `true` will get only comments that are **not** ignored
+  - `locations` **{Boolean}**: if `true` result will include `acorn` location object
+  - `ecmaVersion` **{Number}**: defaults to `6`, acorn parsing version
+* `returns` **{Array}**: can have `.ast` property if `opts.ast: true`  
+
+**Example**
+
+```js
+const fs = require('fs')
+const extract = require('acorn-extract-comments')
+
+const str = fs.readFileSync('./index.js', 'utf8')
+const comments = extract(str, {})
+// => ['array', 'of', 'all', 'code', 'comments']
+```
+
+### [.line](index.js#L70)
+> Extract only line comments.
+
+**Params**
+
+* `<input>` **{String}**: string from which to get comments    
+* `[opts]` **{Object}**: optional options, passed to `acorn`    
+* `returns` **{Array}**: can have `.ast` property if `opts.ast: true`  
+
+**Example**
+
+```js
+const comments = extract(str, {block: false})
+// => ['array', 'of', 'line', 'comments']
+```
+
+or through method
+
+```js
+const comments = extract.line(str)
+// => ['all', 'line', 'comments']
+```
+
+### [.block](index.js#L98)
+> Extract only block comments.
+
+**Params**
+
+* `<input>` **{String}**: string from which to get comments    
+* `[opts]` **{Object}**: optional options, passed to `acorn`    
+* `returns` **{Array}**: can have `.ast` property if `opts.ast: true`  
+
+**Examples**
+
+```js
+const comments = extract(str, {line: false})
+// => ['array', 'of', 'block', 'comments']
+```
+
+or through method
+
+```js
+const comments = extract.block(str)
+// => ['array', 'of', 'block', 'comments']
 ```
 
 
 ## Contributing
-
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/tunnckoCore/acorn-extract-comments/issues/new).  
 But before doing anything, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) guidelines.
 
@@ -32,9 +104,9 @@ But before doing anything, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) 
 
 
 [npmjs-url]: https://www.npmjs.com/package/acorn-extract-comments
-[npmjs-img]: https://img.shields.io/npm/v/acorn-extract-comments.svg
+[npmjs-img]: https://img.shields.io/npm/v/acorn-extract-comments.svg?label=acorn-extract-comments
 
-[license-url]: https://github.com/tunnckoCore/acorn-extract-comments/blob/master/LICENSE.md
+[license-url]: https://github.com/tunnckoCore/acorn-extract-comments/blob/master/LICENSE
 [license-img]: https://img.shields.io/badge/license-MIT-blue.svg
 
 
@@ -72,5 +144,5 @@ But before doing anything, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) 
 [freenode-url]: http://webchat.freenode.net/?channels=charlike
 [freenode-img]: https://img.shields.io/badge/freenode-%23charlike-5654a4.svg
 
-[new-message-url]: https://github.com/tunnckoCore/messages
-[new-message-img]: https://img.shields.io/badge/send%20me-message-green.svg
+[new-message-url]: https://github.com/tunnckoCore/ama
+[new-message-img]: https://img.shields.io/badge/ask%20me-anything-green.svg

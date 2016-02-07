@@ -1,7 +1,7 @@
 /*!
  * acorn-extract-comments <https://github.com/tunnckoCore/acorn-extract-comments>
  *
- * Copyright (c) 2015 Charlike Mike Reagent, contributors.
+ * Copyright (c) 2015-2016 Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)
  * Released under the MIT license.
  */
 
@@ -13,32 +13,58 @@ var fs = require('fs')
 var test = require('assertit')
 var acornExtractComments = require('./index')
 
-test('acorn-extract-comments:', function () {
-  test('should throw TypeError if not string given', function (done) {
-    function fixture () {
-      acornExtractComments()
-    }
+test('should throw TypeError if not a string', function (done) {
+  function fixture () {
+    acornExtractComments(123456)
+  }
 
-    test.throws(fixture, TypeError)
-    test.throws(fixture, /acorn-extract-comments expect a string/)
-    done()
-  })
-  test('should extract comments to `.comments` prop (without options)', function (done) {
-    var input = fs.readFileSync('./fixture.js', 'utf8')
-    var actual = acornExtractComments(input)
+  test.throws(fixture, TypeError)
+  test.throws(fixture, /expect `input` to be a string/)
+  done()
+})
 
-    test.equal(typeof actual, 'object')
-    test.ok(!actual.ast)
-    test.ok(Array.isArray(actual.comments))
-    done()
-  })
-  test('should pass AST to `.ast` prop (when `opts.ast:true`)', function (done) {
-    var input = fs.readFileSync('./fixture.js', 'utf8')
-    var actual = acornExtractComments(input, {ast: true})
+test('should get empty array if empty string given', function (done) {
+  var comments = acornExtractComments('')
+  test.deepEqual(comments, [])
+  done()
+})
 
-    test.equal(typeof actual, 'object')
-    test.equal(typeof actual.ast, 'object')
-    test.ok(Array.isArray(actual.comments))
-    done()
-  })
+test('should get empty array if not comments found', function (done) {
+  var input = fs.readFileSync('./index.js', 'utf8')
+  var comments = acornExtractComments.line(input)
+
+  test.strictEqual(comments.length, 0)
+  done()
+})
+
+test('should get all comments, including ignored', function (done) {
+  var input = fs.readFileSync('./index.js', 'utf8')
+  var comments = acornExtractComments(input)
+
+  test.strictEqual(comments.length, 6)
+  done()
+})
+
+test('should get all comments, but not including `ignored`', function (done) {
+  var input = fs.readFileSync('./index.js', 'utf8')
+  var comments = acornExtractComments(input, {preserve: true})
+
+  test.strictEqual(comments.length, 5)
+  done()
+})
+
+test('should get only block with `.block` method', function (done) {
+  var input = fs.readFileSync('./index.js', 'utf8')
+  var comments = acornExtractComments.block(input)
+
+  test.strictEqual(comments.length, 6)
+  done()
+})
+
+test('should get only line with `.line` method', function (done) {
+  var input = fs.readFileSync('./index.js', 'utf8')
+
+  var comments = acornExtractComments.line(input)
+  test.strictEqual(comments.length, 0)
+  done()
 })
