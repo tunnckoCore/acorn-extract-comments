@@ -13,7 +13,8 @@
   "dependencies": {
     "acorn": "^2.7.0",
     "arr-filter": "^1.1.1",
-    "extend-shallow": "^2.0.1"
+    "extend-shallow": "^2.0.1",
+    "strip-shebang": "^1.0.2"
   },
   "devDependencies": {
     "assertit": "^0.1.0",

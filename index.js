@@ -10,6 +10,7 @@
 var acorn = require('acorn')
 var filter = require('arr-filter')
 var extend = require('extend-shallow')
+var stripShebang = require('strip-shebang')
 
 /**
  * > Extract all code comments, including block/line and
@@ -125,7 +126,7 @@ function acornExtractComments (input, opts) {
   }, opts)
 
   var comments = opts.onComment = []
-  var ast = acorn.parse(input, opts)
+  var ast = acorn.parse(stripShebang(input), opts)
 
   if (!comments.length) return []
 
