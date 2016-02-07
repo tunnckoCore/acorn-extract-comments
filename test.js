@@ -34,6 +34,7 @@ test('should get empty array if not comments found', function (done) {
   var comments = acornExtractComments.line(input)
 
   test.strictEqual(comments.length, 0)
+  test.strictEqual(Array.isArray(comments), true)
   done()
 })
 
@@ -53,15 +54,16 @@ test('should get all comments, but not including `ignored`', function (done) {
   done()
 })
 
-test('should get only block with `.block` method', function (done) {
+test('should get only block comments with `.block` method', function (done) {
   var input = fs.readFileSync('./index.js', 'utf8')
   var comments = acornExtractComments.block(input)
 
+  test.strictEqual(comments.ast, undefined)
   test.strictEqual(comments.length, 6)
   done()
 })
 
-test('should get only line with `.line` method', function (done) {
+test('should get only line comments with `.line` method', function (done) {
   var input = fs.readFileSync('./index.js', 'utf8')
 
   var comments = acornExtractComments.line(input)
