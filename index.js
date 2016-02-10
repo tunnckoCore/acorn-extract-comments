@@ -35,7 +35,7 @@ var stripShebang = require('strip-shebang')
  *   @option {Boolean} [opts] `block` if `false` get line comments, default `true`
  *   @option {Boolean|Function} [opts] `preserve` if `true` will get only comments that are **not** ignored
  *   @option {Boolean} [opts] `locations` if `true` result will include `acorn` location object
- *   @option {Number} [opts] `ecmaVersion` defaults to `6`, acorn parsing version
+ *   @option {Number} [opts] `ecmaVersion` defaults to `acorn` default ecmaVersion + 1, so default is `7`
  * @return {Array} can have `.ast` property if `opts.ast: true`
  * @api public
  */
@@ -120,7 +120,7 @@ function acornExtractComments (input, opts) {
     block: false,
     preserve: false,
     locations: false,
-    ecmaVersion: 6
+    ecmaVersion: 7
   }, opts)
 
   var comments = opts.onComment = []
