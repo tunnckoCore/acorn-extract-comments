@@ -46,11 +46,23 @@ test('should get all comments, including ignored', function (done) {
   done()
 })
 
-test('should get all comments, but not including `ignored`', function (done) {
+test('should get all comments, but not including `ignored` (preserve: true)', function (done) {
   var input = fs.readFileSync('./index.js', 'utf8')
   var comments = acornExtractComments(input, {preserve: true})
 
   test.strictEqual(comments.length, 5)
+  done()
+})
+
+test('should get all comments, but not including `ignored` (preserve: ignoreFunction)', function (done) {
+  var input = fs.readFileSync('./index.js', 'utf8')
+  var comments = acornExtractComments(input, {preserve: function ignore (val) {
+    // comments that starts like `/*!` or `/** ~` or `/** ~~`
+    // are ignored, so not in they are not in `comments` result
+    return val.charCodeAt(0) === 33 || (val.charCodeAt(2) === 126 || val.charCodeAt(3) === 126)
+  }})
+
+  test.strictEqual(comments.length, 4)
   done()
 })
 

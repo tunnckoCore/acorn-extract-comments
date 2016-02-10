@@ -33,8 +33,7 @@ var stripShebang = require('strip-shebang')
  *   @option {Boolean} [opts] `ast` if `true` the ast is added to the resulting array
  *   @option {Boolean} [opts] `line` if `false` get only block comments, default `true`
  *   @option {Boolean} [opts] `block` if `false` get line comments, default `true`
- *   @option {Function} [opts] `ignore` check function, default check comment starts with `!`
- *   @option {Boolean} [opts] `preserve` if `true` will get only comments that are **not** ignored
+ *   @option {Boolean|Function} [opts] `preserve` if `true` will get only comments that are **not** ignored
  *   @option {Boolean} [opts] `locations` if `true` result will include `acorn` location object
  *   @option {Number} [opts] `ecmaVersion` defaults to `6`, acorn parsing version
  * @return {Array} can have `.ast` property if `opts.ast: true`
@@ -121,8 +120,7 @@ function acornExtractComments (input, opts) {
     block: false,
     preserve: false,
     locations: false,
-    ecmaVersion: 6,
-    ignore: defaultIsIgnore
+    ecmaVersion: 6
   }, opts)
 
   var comments = opts.onComment = []
@@ -133,7 +131,14 @@ function acornExtractComments (input, opts) {
   comments = filter(comments, function (comment) {
     var line = (opts.line && comment.type === 'Line') || false
     var block = (opts.block && comment.type === 'Block') || false
-    var ignore = (opts.preserve && opts.ignore(comment.value)) || false
+    var ignore = false
+    if (typeof opts.preserve === 'boolean') {
+      ignore = opts.preserve && defaultIsIgnore(comment.value)
+    }
+    if (typeof opts.preserve === 'function') {
+      var preserve = opts.preserve(comment.value)
+      ignore = typeof preserve === 'boolean' ? preserve : ignore
+    }
 
     if (!ignore && line) return true
     if (!ignore && block) return true
@@ -144,7 +149,7 @@ function acornExtractComments (input, opts) {
   return comments
 }
 
-/**
+/** ~~
  * > Default ignore/preserve check function
  *
  * @param  {String} `val`
@@ -152,5 +157,5 @@ function acornExtractComments (input, opts) {
  * @api private
  */
 function defaultIsIgnore (val) {
-  return val.charCodeAt(0) === 33 || val.charCodeAt(1) === 33
+  return val.charCodeAt(0) === 33
 }

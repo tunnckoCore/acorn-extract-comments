@@ -29,8 +29,7 @@ const extract = require('acorn-extract-comments')
   - `ast` **{Boolean}**: if `true` the ast is added to the resulting array
   - `line` **{Boolean}**: if `false` get only block comments, default `true`
   - `block` **{Boolean}**: if `false` get line comments, default `true`
-  - `ignore` **{Function}**: check function, default check comment starts with `!`
-  - `preserve` **{Boolean}**: if `true` will get only comments that are **not** ignored
+  - `preserve` **{Boolean|Function}**: if `true` will get only comments that are **not** ignored
   - `locations` **{Boolean}**: if `true` result will include `acorn` location object
   - `ecmaVersion` **{Number}**: defaults to `6`, acorn parsing version
 * `returns` **{Array}**: can have `.ast` property if `opts.ast: true`  
