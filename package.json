@@ -11,7 +11,7 @@
     "test": "standard && node test.js"
   },
   "dependencies": {
-    "acorn": "^5.0.1",
+    "acorn": "^5.1.1",
     "arr-filter": "^1.1.1",
     "extend-shallow": "^2.0.1",
     "strip-shebang": "^1.0.2"
